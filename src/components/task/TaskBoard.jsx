@@ -9,7 +9,9 @@ export default function TaskBoard() {
   const [tasks, setTasks] = useState(initialTasks);
   const [showTaskModal, setShowTaskModal] = useState(false);
   const [taskToUpdate, setTaskToUpdate] = useState(null);
-  console.log(tasks);
+  // console.log(tasks);
+  const defaultTasks = [...initialTasks];
+  // console.log(defaultTasks);
 
   function handleAddTask(newTask, isAddTask) {
     if (isAddTask) {
@@ -43,6 +45,17 @@ export default function TaskBoard() {
       })
     );
   }
+  function handleSearchTasks(searchKey) {
+    if (searchKey) {
+      setTasks(
+        tasks.filter((task) =>
+          task.title.toLowerCase().includes(searchKey.toLowerCase())
+        )
+      );
+    } else {
+      setTasks([...defaultTasks]);
+    }
+  }
   return (
     <section className="mb-20" id="tasks">
       <div className="">
@@ -63,6 +76,7 @@ export default function TaskBoard() {
             <TaskActions
               onAddTask={() => setShowTaskModal(true)}
               onDeleteAllTasks={handleDeleteAllTasks}
+              onSearchTasks={handleSearchTasks}
             />
           </div>
           {tasks.length > 0 ? (

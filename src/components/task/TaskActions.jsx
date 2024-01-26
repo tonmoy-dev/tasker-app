@@ -1,9 +1,13 @@
 import SearchTask from "./SearchTask";
 
-export default function TaskActions({ onAddTask, onDeleteAllTasks }) {
+export default function TaskActions({
+  onAddTask,
+  onDeleteAllTasks,
+  onSearchTasks,
+}) {
   return (
     <div className="flex items-center space-x-5">
-      <SearchTask />
+      <SearchTask onSearchTasks={onSearchTasks} />
       <button
         className="rounded-md bg-blue-500 px-3.5 py-2.5 text-sm font-semibold"
         onClick={onAddTask}
