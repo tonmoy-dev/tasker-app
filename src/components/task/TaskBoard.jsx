@@ -9,7 +9,8 @@ export default function TaskBoard() {
   const [tasks, setTasks] = useState(initialTasks);
   const [showTaskModal, setShowTaskModal] = useState(false);
   const [taskToUpdate, setTaskToUpdate] = useState(null);
-  console.log(tasks);
+  // console.log(tasks);
+
   function handleAddTask(newTask, isAddTask) {
     if (isAddTask) {
       setTasks([...tasks, newTask]);
@@ -30,6 +31,9 @@ export default function TaskBoard() {
   function handleDeleteTask(taskId) {
     setTasks(tasks.filter((task) => task.id !== taskId));
   }
+  function handleDeleteAllTasks() {
+    setTasks([]);
+  }
   return (
     <section className="mb-20" id="tasks">
       <div className="">
@@ -47,7 +51,10 @@ export default function TaskBoard() {
         <div className="rounded-xl border border-[rgba(206,206,206,0.12)] bg-[#1D212B] px-6 py-8 md:px-9 md:py-16">
           <div className="mb-14 items-center justify-between sm:flex">
             <h2 className="text-2xl font-semibold max-sm:mb-4">Your Tasks</h2>
-            <TaskActions onAddTask={() => setShowTaskModal(true)} />
+            <TaskActions
+              onAddTask={() => setShowTaskModal(true)}
+              onDeleteAllTasks={handleDeleteAllTasks}
+            />
           </div>
           {tasks.length > 0 ? (
             <TasksList
