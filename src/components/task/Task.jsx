@@ -1,4 +1,4 @@
-export default function Task({ task, onEditTask }) {
+export default function Task({ task, onEditTask, onDeleteTask }) {
   let bgColors = ["bg-[#00D991A1]", "bg-[#FE1A1AB5]", "bg-[#BD560BB2]"];
   bgColors = null;
 
@@ -66,7 +66,12 @@ export default function Task({ task, onEditTask }) {
         <td className="text-center">{task.priority}</td>
         <td>
           <div className="flex items-center justify-center space-x-3">
-            <button className="text-red-500">Delete</button>
+            <button
+              className="text-red-500"
+              onClick={() => onDeleteTask(task.id)}
+            >
+              Delete
+            </button>
             <button className="text-blue-500" onClick={() => onEditTask(task)}>
               Edit
             </button>

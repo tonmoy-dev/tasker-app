@@ -27,6 +27,9 @@ export default function TaskBoard() {
     setTaskToUpdate(task);
     setShowTaskModal(true);
   }
+  function handleDeleteTask(taskId) {
+    setTasks(tasks.filter((task) => task.id !== taskId));
+  }
   return (
     <section className="mb-20" id="tasks">
       <div className="">
@@ -47,7 +50,11 @@ export default function TaskBoard() {
             <TaskActions onAddTask={() => setShowTaskModal(true)} />
           </div>
           {tasks.length > 0 ? (
-            <TasksList tasks={tasks} onEditTask={handleEditTask} />
+            <TasksList
+              tasks={tasks}
+              onEditTask={handleEditTask}
+              onDeleteTask={handleDeleteTask}
+            />
           ) : (
             <NoTaskFound />
           )}

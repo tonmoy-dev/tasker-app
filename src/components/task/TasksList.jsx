@@ -1,6 +1,6 @@
 import Task from "./Task";
 
-export default function TasksList({ tasks, onEditTask }) {
+export default function TasksList({ tasks, onEditTask, onDeleteTask }) {
   return (
     <div className="overflow-auto">
       <table className="table-fixed overflow-auto xl:w-full">
@@ -31,7 +31,12 @@ export default function TasksList({ tasks, onEditTask }) {
         </thead>
         <tbody>
           {tasks.map((task) => (
-            <Task key={task.id} task={task} onEditTask={onEditTask} />
+            <Task
+              key={task.id}
+              task={task}
+              onEditTask={onEditTask}
+              onDeleteTask={onDeleteTask}
+            />
           ))}
         </tbody>
       </table>
