@@ -1,6 +1,11 @@
 import Task from "./Task";
 
-export default function TasksList({ tasks, onEditTask, onDeleteTask }) {
+export default function TasksList({
+  tasks,
+  onEditTask,
+  onDeleteTask,
+  onFavorite,
+}) {
   return (
     <div className="overflow-auto">
       <table className="table-fixed overflow-auto xl:w-full">
@@ -36,6 +41,7 @@ export default function TasksList({ tasks, onEditTask, onDeleteTask }) {
               task={task}
               onEditTask={onEditTask}
               onDeleteTask={onDeleteTask}
+              onFavorite={onFavorite}
             />
           ))}
         </tbody>

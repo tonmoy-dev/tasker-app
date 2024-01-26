@@ -9,7 +9,7 @@ export default function TaskBoard() {
   const [tasks, setTasks] = useState(initialTasks);
   const [showTaskModal, setShowTaskModal] = useState(false);
   const [taskToUpdate, setTaskToUpdate] = useState(null);
-  // console.log(tasks);
+  console.log(tasks);
 
   function handleAddTask(newTask, isAddTask) {
     if (isAddTask) {
@@ -33,6 +33,15 @@ export default function TaskBoard() {
   }
   function handleDeleteAllTasks() {
     setTasks([]);
+  }
+  function handleFavoriteToggle(taskId) {
+    setTasks(
+      tasks.map((task) => {
+        return task.id === taskId
+          ? { ...task, isFavorite: !task.isFavorite }
+          : task;
+      })
+    );
   }
   return (
     <section className="mb-20" id="tasks">
@@ -61,6 +70,7 @@ export default function TaskBoard() {
               tasks={tasks}
               onEditTask={handleEditTask}
               onDeleteTask={handleDeleteTask}
+              onFavorite={handleFavoriteToggle}
             />
           ) : (
             <NoTaskFound />
