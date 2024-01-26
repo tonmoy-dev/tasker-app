@@ -1,5 +1,6 @@
 import { useState } from "react";
 import initialTasks from "../../assets/data/initialTasks.json";
+import NoTaskFound from "./NoTaskFound";
 import TaskActions from "./TaskActions";
 import TasksList from "./TasksList";
 
@@ -14,7 +15,7 @@ export default function TaskBoard() {
             <h2 className="text-2xl font-semibold max-sm:mb-4">Your Tasks</h2>
             <TaskActions />
           </div>
-          <TasksList tasks={tasks} />
+          {tasks.length > 0 ? <TasksList tasks={tasks} /> : <NoTaskFound />}
         </div>
       </div>
     </section>

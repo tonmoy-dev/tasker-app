@@ -1,5 +1,6 @@
 export default function Task({ task }) {
-  const bgColors = ["bg-[#00D991A1]", "bg-[#FE1A1AB5]", "bg-[#BD560BB2]"];
+  let bgColors = ["bg-[#00D991A1]", "bg-[#FE1A1AB5]", "bg-[#BD560BB2]"];
+  bgColors = null;
 
   // generating random background colors for tags
   function getBgRandomColor() {
@@ -53,7 +54,7 @@ export default function Task({ task }) {
               <li key={tag}>
                 <span
                   className={`inline-block h-5 whitespace-nowrap rounded-[45px] ${
-                    bgColors[getBgRandomColor()]
+                    bgColors ? bgColors[getBgRandomColor()] : "bg-[#00D991A1]"
                   } px-2.5 text-sm capitalize text-[#F4F5F6]`}
                 >
                   {tag}
