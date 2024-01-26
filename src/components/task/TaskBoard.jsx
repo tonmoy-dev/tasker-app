@@ -1,7 +1,11 @@
+import { useState } from "react";
+import initialTasks from "../../assets/data/initialTasks.json";
 import TaskActions from "./TaskActions";
 import TasksList from "./TasksList";
 
 export default function TaskBoard() {
+  const [tasks, setTasks] = useState(initialTasks);
+
   return (
     <section className="mb-20" id="tasks">
       <div className="container">
@@ -10,7 +14,7 @@ export default function TaskBoard() {
             <h2 className="text-2xl font-semibold max-sm:mb-4">Your Tasks</h2>
             <TaskActions />
           </div>
-          <TasksList />
+          <TasksList tasks={tasks} />
         </div>
       </div>
     </section>

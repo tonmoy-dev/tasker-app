@@ -1,0 +1,26 @@
+[
+  {
+    "id": 0,
+    "title": "React",
+    "description": "React - The library for web and native user interfaces.",
+    "tags": ["web", "react", "frontend development"],
+    "priority": "High",
+    "isFavorite": true
+  },
+  {
+    "id": 1,
+    "title": "React Native",
+    "description": "Learn once, write anywhere - React Native, an UI software framework",
+    "tags": ["react native", "iOS", "macOS", "Android development"],
+    "priority": "Medium",
+    "isFavorite": false
+  },
+  {
+    "id": 2,
+    "title": "Next.js",
+    "description": "Next.js by Vercel - The React Framework",
+    "tags": ["web", "react", "full stack development"],
+    "priority": "High",
+    "isFavorite": true
+  }
+]
