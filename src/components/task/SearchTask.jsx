@@ -1,13 +1,15 @@
 import { useState } from "react";
 
 export default function SearchTask({ onSearchTasks }) {
-  const [searchKeyword, setSearchKeyword] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
   function handleInputChange(e) {
-    setSearchKeyword(e.target.value);
-    onSearchTasks(e.target.value);
+    const searchKey = e.target.value;
+    setSearchTerm(searchKey);
+    onSearchTasks(searchKey);
   }
   function handleSubmit(e) {
     e.preventDefault();
+    onSearchTasks(searchTerm);
   }
   return (
     <form onSubmit={handleSubmit}>
@@ -18,7 +20,7 @@ export default function SearchTask({ onSearchTasks }) {
             id="search-dropdown"
             className="z-20 block w-full bg-gray-800 px-4 py-2 pr-10 focus:outline-none"
             placeholder="Search Task"
-            value={searchKeyword}
+            value={searchTerm}
             onChange={handleInputChange}
             required
           />

@@ -1,28 +1,33 @@
-import { useState } from "react";
+import { useReducer, useState } from "react";
 import initialTasks from "../../assets/data/initialTasks.json";
+import taskReducer from "../../reducers/taskReducer";
 import AddTaskModal from "./AddTaskModal";
 import NoTaskFound from "./NoTaskFound";
 import TaskActions from "./TaskActions";
 import TasksList from "./TasksList";
 
 export default function TaskBoard() {
-  const [tasks, setTasks] = useState(initialTasks);
+  // const [tasks, setTasks] = useState(initialTasks);
+  const [tasks, dispatch] = useReducer(taskReducer, initialTasks);
   const [showTaskModal, setShowTaskModal] = useState(false);
   const [taskToUpdate, setTaskToUpdate] = useState(null);
+  const [isAllTasksDeleted, setIsAllTasksDeleted] = useState(false);
+
   // console.log(tasks);
   const defaultTasks = [...initialTasks];
-  // console.log(defaultTasks);
 
   function handleAddTask(newTask, isAddTask) {
     if (isAddTask) {
-      setTasks([...tasks, newTask]);
+      dispatch({
+        type: "ADD_TASK",
+        payload: { newTask },
+      });
     } else {
       setTaskToUpdate(null);
-      setTasks(
-        tasks.map((task) => {
-          return task.id === newTask.id ? newTask : task;
-        })
-      );
+      dispatch({
+        type: "EDIT_TASK",
+        payload: { newTask },
+      });
     }
     setShowTaskModal(false);
   }
@@ -30,43 +35,51 @@ export default function TaskBoard() {
     setTaskToUpdate(task);
     setShowTaskModal(true);
   }
+
   function handleDeleteTask(taskId) {
-    setTasks(tasks.filter((task) => task.id !== taskId));
+    dispatch({
+      type: "DELETE_TASK",
+      payload: { taskId },
+    });
   }
+
   function handleDeleteAllTasks() {
-    setTasks([]);
+    dispatch({
+      type: "DELETE_ALL_TASKS",
+    });
+    setIsAllTasksDeleted(true);
   }
   function handleFavoriteToggle(taskId) {
-    setTasks(
-      tasks.map((task) => {
-        return task.id === taskId
-          ? { ...task, isFavorite: !task.isFavorite }
-          : task;
-      })
-    );
+    dispatch({
+      type: "TOGGLE_FAVORITE",
+      payload: { taskId },
+    });
   }
   function handleSearchTasks(searchKey) {
     if (searchKey) {
-      setTasks(
-        tasks.filter((task) =>
-          task.title.toLowerCase().includes(searchKey.toLowerCase())
-        )
-      );
+      dispatch({
+        type: "SEARCH_TASKS",
+        payload: { searchKey },
+      });
     } else {
-      setTasks([...defaultTasks]);
+      if (!isAllTasksDeleted) {
+        dispatch({
+          type: "NO_SEARCH",
+          payload: { allTasks: [...defaultTasks] },
+        });
+      }
     }
   }
+
   return (
     <section className="mb-20" id="tasks">
       <div className="">
-        {showTaskModal ? (
+        {showTaskModal && (
           <AddTaskModal
             tasks={tasks}
             onSaveTask={handleAddTask}
             taskToUpdate={taskToUpdate}
           />
-        ) : (
-          ""
         )}
       </div>
       <div className="container">

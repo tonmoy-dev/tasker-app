@@ -9,7 +9,6 @@ function App() {
     <>
       <Header />
       <HeroArea />
-      {/* <AddTaskModal /> */}
       <TaskBoard />
       <Footer />
     </>
