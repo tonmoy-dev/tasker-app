@@ -1,6 +1,6 @@
 export default function ConfirmDialog({
   setIsShowDialog,
-  handleDeleteConfirm,
+  onDeleteConfirm,
   title,
 }) {
   return (
@@ -25,7 +25,7 @@ export default function ConfirmDialog({
               </svg>
             </div>
             <h3 className="text-white text-base font-semibold leading-6 text-gray-900">
-              Are you sure to delete {title}?
+              Are you sure to {title}?
             </h3>
           </div>
           <div className="px-4 py-3 flex items-center justify-center gap-5">
@@ -33,7 +33,7 @@ export default function ConfirmDialog({
               type="button"
               className="rounded-md bg-red-500 px-3 py-2 text-sm font-semibold text-white shadow-sm"
               onClick={() => {
-                handleDeleteConfirm();
+                onDeleteConfirm();
               }}
             >
               Yes

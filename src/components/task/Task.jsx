@@ -9,24 +9,18 @@ export default function Task({
 }) {
   const dispatch = useTasksDispatch();
 
-  let bgColors = ["bg-[#00D991A1]", "bg-[#FE1A1AB5]", "bg-[#BD560BB2]"];
-
-  // generating random background colors for tags
-  function getBgRandomColor() {
-    return Math.floor(Math.random() * bgColors.length);
-  }
-  function handleFavorite(taskId) {
-    dispatch({
-      type: "TOGGLE_FAVORITE",
-      payload: { taskId },
-    });
-  }
-
   return (
     <>
       <tr className="border-b border-[#2E3443] [&>td]:align-baseline [&>td]:px-4 [&>td]:py-2">
         <td>
-          <button onClick={() => handleFavorite(task.id)}>
+          <button
+            onClick={() =>
+              dispatch({
+                type: "TOGGLE_FAVORITE",
+                payload: { taskId: task.id },
+              })
+            }
+          >
             {task.isFavorite ? (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -70,11 +64,7 @@ export default function Task({
           <ul className="flex justify-center gap-1.5 flex-wrap">
             {task.tags.map((tag) => (
               <li key={tag}>
-                <span
-                  className={`inline-block h-5 whitespace-nowrap rounded-[45px] ${
-                    bgColors ? bgColors[getBgRandomColor()] : "bg-[#00D991A1]"
-                  } px-2.5 text-sm capitalize text-[#F4F5F6]`}
-                >
+                <span className="inline-block h-5 whitespace-nowrap rounded-[45px] bg-[#00D991A1] px-2.5 text-sm capitalize text-[#F4F5F6]">
                   {tag}
                 </span>
               </li>

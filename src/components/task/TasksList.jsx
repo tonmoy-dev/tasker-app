@@ -12,8 +12,10 @@ export default function TasksList() {
   const [isConfirm, setIsConfirm] = useState(false);
   const [taskId, setTaskId] = useState(null);
 
+  const tasks = useTasks();
   const dispatch = useTasksDispatch();
 
+  // handle delete confirmation
   function handleDeleteConfirm() {
     dispatch({
       type: "DELETE_TASK",
@@ -23,7 +25,6 @@ export default function TasksList() {
     toast.success(`Task Is Removed !`);
   }
 
-  const tasks = useTasks();
   return (
     <>
       {showTaskModal && (
@@ -34,10 +35,10 @@ export default function TasksList() {
       )}
       {isShowDialog && (
         <ConfirmDialog
-          title="this task"
+          title="delete this task"
           setIsShowDialog={setIsShowDialog}
           setIsConfirm={setIsConfirm}
-          handleDeleteConfirm={handleDeleteConfirm}
+          onDeleteConfirm={handleDeleteConfirm}
         />
       )}
       <div className="overflow-auto">

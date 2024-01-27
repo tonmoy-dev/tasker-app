@@ -5,14 +5,13 @@ import ConfirmDialog from "../utility/ConfirmDialog";
 import AddTaskModal from "./AddTaskModal";
 import SearchTask from "./SearchTask";
 
-export default function TaskActions({
-  setIsAllTasksDeleted,
-  isAllTasksDeleted,
-}) {
+export default function TaskActions() {
   const [showTaskModal, setShowTaskModal] = useState(false);
   const [isShowDialog, setIsShowDialog] = useState(false);
+  const [isAllTasksDeleted, setIsAllTasksDeleted] = useState(false);
   const dispatch = useTasksDispatch();
 
+  // handle delete confirmation
   function handleDeleteConfirm() {
     dispatch({
       type: "DELETE_ALL_TASKS",
@@ -30,9 +29,9 @@ export default function TaskActions({
       )}
       {isShowDialog && (
         <ConfirmDialog
-          title="all tasks"
+          title="delete all tasks"
           setIsShowDialog={setIsShowDialog}
-          handleDeleteConfirm={handleDeleteConfirm}
+          onDeleteConfirm={handleDeleteConfirm}
         />
       )}
       <div className="flex items-center space-x-5">

@@ -62,7 +62,6 @@ export default function AddTaskModal({ taskToUpdate, setShowTaskModal }) {
         });
         toast.success(`A New Task Is Added !`);
       } else {
-        // setTaskToUpdate(null);
         dispatch({
           type: "EDIT_TASK",
           payload: { newTask },
@@ -149,19 +148,39 @@ export default function AddTaskModal({ taskToUpdate, setShowTaskModal }) {
         </div>
 
         {errors.length > 0 && (
-          <div className="mx-auto rounded-lg border border-[rgba(206,206,206,0.12)] bg-[#1D212B] px-4 py-3 mt-4">
-            <p className="text-red-500">
-              {" "}
-              <b>{errors.join(", ")} is required !</b>{" "}
+          <div className="mx-auto rounded-lg border border-[rgba(206,206,206,0.12)] bg-[#1D212B] px-4 py-3 mt-4 flex gap-3 items-center">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-6 h-6 text-red-500"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"
+              />
+            </svg>
+            <p className="text-red-500 font-semibold">
+              {errors.join(", ")} is required !
             </p>
           </div>
         )}
-        <div className="mt-16 flex justify-center lg:mt-20">
+
+        <div className="mt-16 flex justify-center gap-6 lg:mt-20">
           <button
             type="submit"
             className="rounded bg-blue-600 px-4 py-2 text-white transition-all hover:opacity-80"
           >
             {isAddTask ? "Create new Task" : "Save Task"}
+          </button>
+          <button
+            onClick={() => setShowTaskModal(false)}
+            className="shadow-sm bg-gray-700 rounded px-4 py-2 text-white transition-all hover:opacity-80"
+          >
+            Cancel
           </button>
         </div>
       </form>
