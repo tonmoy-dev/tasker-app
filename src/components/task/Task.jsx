@@ -1,10 +1,15 @@
 import { useTasksDispatch } from "../../contexts/TasksProvider";
 
-export default function Task({ task, setTaskToUpdate, setShowTaskModal }) {
+export default function Task({
+  task,
+  setTaskToUpdate,
+  setShowTaskModal,
+  setIsShowDialog,
+  setTaskId,
+}) {
   const dispatch = useTasksDispatch();
 
   let bgColors = ["bg-[#00D991A1]", "bg-[#FE1A1AB5]", "bg-[#BD560BB2]"];
-  bgColors = null;
 
   // generating random background colors for tags
   function getBgRandomColor() {
@@ -16,6 +21,7 @@ export default function Task({ task, setTaskToUpdate, setShowTaskModal }) {
       payload: { taskId },
     });
   }
+
   return (
     <>
       <tr className="border-b border-[#2E3443] [&>td]:align-baseline [&>td]:px-4 [&>td]:py-2">
@@ -80,12 +86,10 @@ export default function Task({ task, setTaskToUpdate, setShowTaskModal }) {
           <div className="flex items-center justify-center space-x-3">
             <button
               className="text-red-500"
-              onClick={() =>
-                dispatch({
-                  type: "DELETE_TASK",
-                  payload: { taskId: task.id },
-                })
-              }
+              onClick={() => {
+                setIsShowDialog(true);
+                setTaskId(task.id);
+              }}
             >
               Delete
             </button>

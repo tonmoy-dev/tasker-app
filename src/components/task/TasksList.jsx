@@ -1,11 +1,28 @@
 import { useState } from "react";
-import { useTasks } from "../../contexts/TasksProvider";
+import { toast } from "react-toastify";
+import { useTasks, useTasksDispatch } from "../../contexts/TasksProvider";
+import ConfirmDialog from "../utility/ConfirmDialog";
 import AddTaskModal from "./AddTaskModal";
 import Task from "./Task";
 
 export default function TasksList() {
   const [showTaskModal, setShowTaskModal] = useState(false);
   const [taskToUpdate, setTaskToUpdate] = useState(null);
+  const [isShowDialog, setIsShowDialog] = useState(false);
+  const [isConfirm, setIsConfirm] = useState(false);
+  const [taskId, setTaskId] = useState(null);
+
+  const dispatch = useTasksDispatch();
+
+  function handleDeleteConfirm() {
+    dispatch({
+      type: "DELETE_TASK",
+      payload: { taskId },
+    });
+    setIsShowDialog(false);
+    toast.success(`Task Is Removed !`);
+  }
+
   const tasks = useTasks();
   return (
     <>
@@ -13,6 +30,14 @@ export default function TasksList() {
         <AddTaskModal
           setShowTaskModal={setShowTaskModal}
           taskToUpdate={taskToUpdate}
+        />
+      )}
+      {isShowDialog && (
+        <ConfirmDialog
+          title="this task"
+          setIsShowDialog={setIsShowDialog}
+          setIsConfirm={setIsConfirm}
+          handleDeleteConfirm={handleDeleteConfirm}
         />
       )}
       <div className="overflow-auto">
@@ -49,6 +74,8 @@ export default function TasksList() {
                 task={task}
                 setTaskToUpdate={setTaskToUpdate}
                 setShowTaskModal={setShowTaskModal}
+                setIsShowDialog={setIsShowDialog}
+                setTaskId={setTaskId}
               />
             ))}
           </tbody>

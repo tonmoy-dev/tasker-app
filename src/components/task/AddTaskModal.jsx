@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { toast } from "react-toastify";
 import { useTasks, useTasksDispatch } from "../../contexts/TasksProvider";
 
 export default function AddTaskModal({ taskToUpdate, setShowTaskModal }) {
@@ -59,12 +60,14 @@ export default function AddTaskModal({ taskToUpdate, setShowTaskModal }) {
           type: "ADD_TASK",
           payload: { newTask },
         });
+        toast.success(`A New Task Is Added !`);
       } else {
         // setTaskToUpdate(null);
         dispatch({
           type: "EDIT_TASK",
           payload: { newTask },
         });
+        toast.success(`Task Is Updated !`);
       }
       setShowTaskModal(false);
     }
