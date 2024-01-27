@@ -2,7 +2,7 @@ import initialTasks from "../assets/data/initialTasks.json";
 
 export default function taskReducer(tasks, action) {
   const { payload } = action;
-  console.log(action);
+  // console.log(action);
   //   console.log(payload);
 
   switch (action.type) {

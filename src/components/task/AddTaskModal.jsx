@@ -11,11 +11,30 @@ export default function AddTaskModal({ taskToUpdate, setShowTaskModal }) {
       isFavorite: false,
     }
   );
-  const [errors, setErrors] = useState("");
+  const [errors, setErrors] = useState([]);
   const [isAddTask, setIsAddTask] = useState(Object.is(taskToUpdate, null));
   const tasks = useTasks();
   const dispatch = useTasksDispatch();
 
+  // validating form fields
+  function validateTask(task) {
+    let errorsArr = [];
+    for (const key in task) {
+      if (task[key] === null || task[key] === "") {
+        errorsArr = [...errorsArr, key];
+      } else if (Array.isArray(task[key]) && task[key].length === 0) {
+        errorsArr = [...errorsArr, key];
+      }
+    }
+    setErrors(errorsArr);
+    if (errorsArr.length === 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  // handling inputs
   function handleChange(e) {
     const name = e.target.name;
     let value = e.target.value;
@@ -28,23 +47,27 @@ export default function AddTaskModal({ taskToUpdate, setShowTaskModal }) {
     });
   }
 
+  // handling form submission
   function handleSubmit(e) {
     e.preventDefault();
-    const nextId = tasks.length > 0 ? tasks[tasks.length - 1].id + 1 : 0;
-    const newTask = { id: nextId, ...task };
-    if (isAddTask) {
-      dispatch({
-        type: "ADD_TASK",
-        payload: { newTask },
-      });
-    } else {
-      // setTaskToUpdate(null);
-      dispatch({
-        type: "EDIT_TASK",
-        payload: { newTask },
-      });
+    // checking inputs validation
+    if (validateTask(task)) {
+      const nextId = tasks.length > 0 ? tasks[tasks.length - 1].id + 1 : 0;
+      const newTask = { id: nextId, ...task };
+      if (isAddTask) {
+        dispatch({
+          type: "ADD_TASK",
+          payload: { newTask },
+        });
+      } else {
+        // setTaskToUpdate(null);
+        dispatch({
+          type: "EDIT_TASK",
+          payload: { newTask },
+        });
+      }
+      setShowTaskModal(false);
     }
-    setShowTaskModal(false);
   }
   return (
     <>
@@ -91,7 +114,7 @@ export default function AddTaskModal({ taskToUpdate, setShowTaskModal }) {
               <label htmlFor="tags">Tags</label>
               <input
                 className={`block w-full rounded-md bg-[#2D323F] px-3 py-2.5 ${
-                  errors.includes("title") && "border border-red-500"
+                  errors.includes("tags") && "border border-red-500"
                 }`}
                 type="text"
                 name="tags"
@@ -104,7 +127,9 @@ export default function AddTaskModal({ taskToUpdate, setShowTaskModal }) {
             <div className="space-y-2 lg:space-y-3">
               <label htmlFor="priority">Priority</label>
               <select
-                className="block w-full cursor-pointer rounded-md bg-[#2D323F] px-3 py-2.5"
+                className={`block w-full cursor-pointer rounded-md bg-[#2D323F] px-3 py-2.5 ${
+                  errors.includes("priority") && "border border-red-500"
+                }`}
                 name="priority"
                 id="priority"
                 // required
@@ -119,7 +144,15 @@ export default function AddTaskModal({ taskToUpdate, setShowTaskModal }) {
             </div>
           </div>
         </div>
-        {/* <div>{errors && <p>{errors}</p>}</div> */}
+
+        {errors.length > 0 && (
+          <div className="mx-auto rounded-lg border border-[rgba(206,206,206,0.12)] bg-[#1D212B] px-4 py-3 mt-4">
+            <p className="text-red-500">
+              {" "}
+              <b>{errors.join(", ")} is required !</b>{" "}
+            </p>
+          </div>
+        )}
         <div className="mt-16 flex justify-center lg:mt-20">
           <button
             type="submit"
