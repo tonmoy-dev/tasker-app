@@ -8,7 +8,6 @@ import SearchTask from "./SearchTask";
 export default function TaskActions() {
   const [showTaskModal, setShowTaskModal] = useState(false);
   const [isShowDialog, setIsShowDialog] = useState(false);
-  const [isAllTasksDeleted, setIsAllTasksDeleted] = useState(false);
   const dispatch = useTasksDispatch();
   const tasks = useTasks();
 
@@ -21,7 +20,6 @@ export default function TaskActions() {
       dispatch({
         type: "DELETE_ALL_TASKS",
       });
-      setIsAllTasksDeleted(true);
       setIsShowDialog(false);
       toast.success(`All tasks removed !`);
       toast.warning(`Task list is empty now !`);
@@ -41,7 +39,7 @@ export default function TaskActions() {
         />
       )}
       <div className="flex items-center space-x-5">
-        <SearchTask isAllTasksDeleted={isAllTasksDeleted} />
+        <SearchTask />
         <button
           className="rounded-md bg-blue-500 px-3.5 py-2.5 text-sm font-semibold"
           onClick={() => setShowTaskModal(true)}

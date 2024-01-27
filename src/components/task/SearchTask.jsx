@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { useTasksDispatch } from "../../contexts/TasksProvider";
+import { useTasks, useTasksDispatch } from "../../contexts/TasksProvider";
 
-export default function SearchTask({ isAllTasksDeleted }) {
+export default function SearchTask() {
   const [searchTerm, setSearchTerm] = useState("");
   const dispatch = useTasksDispatch();
+  const tasks = useTasks();
 
   // form and search handlers
   function handleSearch(searchKey) {
@@ -13,7 +14,7 @@ export default function SearchTask({ isAllTasksDeleted }) {
         payload: { searchKey },
       });
     } else {
-      if (!isAllTasksDeleted) {
+      if (tasks.length > 0) {
         dispatch({
           type: "NO_SEARCH",
         });
