@@ -1,15 +1,32 @@
 import { useState } from "react";
+import { useTasksDispatch } from "../../contexts/TasksProvider";
 
-export default function SearchTask({ onSearchTasks }) {
+export default function SearchTask({ isAllTasksDeleted }) {
   const [searchTerm, setSearchTerm] = useState("");
+  const dispatch = useTasksDispatch();
+
+  function handleSearch(searchKey) {
+    if (searchKey) {
+      dispatch({
+        type: "SEARCH_TASKS",
+        payload: { searchKey },
+      });
+    } else {
+      if (!isAllTasksDeleted) {
+        dispatch({
+          type: "NO_SEARCH",
+        });
+      }
+    }
+  }
   function handleInputChange(e) {
-    const searchKey = e.target.value;
-    setSearchTerm(searchKey);
-    onSearchTasks(searchKey);
+    const inputValue = e.target.value;
+    setSearchTerm(inputValue);
+    handleSearch(inputValue);
   }
   function handleSubmit(e) {
     e.preventDefault();
-    onSearchTasks(searchTerm);
+    handleSearch(searchTerm);
   }
   return (
     <form onSubmit={handleSubmit}>

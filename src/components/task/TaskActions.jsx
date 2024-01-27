@@ -1,25 +1,41 @@
+import { useState } from "react";
+import { useTasksDispatch } from "../../contexts/TasksProvider";
+import AddTaskModal from "./AddTaskModal";
 import SearchTask from "./SearchTask";
 
 export default function TaskActions({
-  onAddTask,
-  onDeleteAllTasks,
-  onSearchTasks,
+  setIsAllTasksDeleted,
+  isAllTasksDeleted,
 }) {
+  const [showTaskModal, setShowTaskModal] = useState(false);
+  const dispatch = useTasksDispatch();
+
   return (
-    <div className="flex items-center space-x-5">
-      <SearchTask onSearchTasks={onSearchTasks} />
-      <button
-        className="rounded-md bg-blue-500 px-3.5 py-2.5 text-sm font-semibold"
-        onClick={onAddTask}
-      >
-        Add Task
-      </button>
-      <button
-        className="rounded-md bg-red-500 px-3.5 py-2.5 text-sm font-semibold"
-        onClick={onDeleteAllTasks}
-      >
-        Delete All
-      </button>
-    </div>
+    <>
+      {showTaskModal && (
+        <AddTaskModal setShowTaskModal={setShowTaskModal} taskToUpdate={null} />
+      )}
+
+      <div className="flex items-center space-x-5">
+        <SearchTask isAllTasksDeleted={isAllTasksDeleted} />
+        <button
+          className="rounded-md bg-blue-500 px-3.5 py-2.5 text-sm font-semibold"
+          onClick={() => setShowTaskModal(true)}
+        >
+          Add Task
+        </button>
+        <button
+          className="rounded-md bg-red-500 px-3.5 py-2.5 text-sm font-semibold"
+          onClick={() => {
+            dispatch({
+              type: "DELETE_ALL_TASKS",
+            });
+            setIsAllTasksDeleted(true);
+          }}
+        >
+          Delete All
+        </button>
+      </div>
+    </>
   );
 }

@@ -1,4 +1,8 @@
-export default function Task({ task, onEditTask, onDeleteTask, onFavorite }) {
+import { useTasksDispatch } from "../../contexts/TasksProvider";
+
+export default function Task({ task, setTaskToUpdate, setShowTaskModal }) {
+  const dispatch = useTasksDispatch();
+
   let bgColors = ["bg-[#00D991A1]", "bg-[#FE1A1AB5]", "bg-[#BD560BB2]"];
   bgColors = null;
 
@@ -6,11 +10,17 @@ export default function Task({ task, onEditTask, onDeleteTask, onFavorite }) {
   function getBgRandomColor() {
     return Math.floor(Math.random() * bgColors.length);
   }
+  function handleFavorite(taskId) {
+    dispatch({
+      type: "TOGGLE_FAVORITE",
+      payload: { taskId },
+    });
+  }
   return (
     <>
       <tr className="border-b border-[#2E3443] [&>td]:align-baseline [&>td]:px-4 [&>td]:py-2">
         <td>
-          <button onClick={() => onFavorite(task.id)}>
+          <button onClick={() => handleFavorite(task.id)}>
             {task.isFavorite ? (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -70,11 +80,22 @@ export default function Task({ task, onEditTask, onDeleteTask, onFavorite }) {
           <div className="flex items-center justify-center space-x-3">
             <button
               className="text-red-500"
-              onClick={() => onDeleteTask(task.id)}
+              onClick={() =>
+                dispatch({
+                  type: "DELETE_TASK",
+                  payload: { taskId: task.id },
+                })
+              }
             >
               Delete
             </button>
-            <button className="text-blue-500" onClick={() => onEditTask(task)}>
+            <button
+              className="text-blue-500"
+              onClick={() => {
+                setTaskToUpdate(task);
+                setShowTaskModal(true);
+              }}
+            >
               Edit
             </button>
           </div>

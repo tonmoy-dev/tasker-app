@@ -12,7 +12,7 @@
     "title": "React Native",
     "description": "Learn once, write anywhere - React Native, an UI software framework",
     "tags": ["react native", "iOS", "macOS", "Android development"],
-    "priority": "Medium",
+    "priority": "Low",
     "isFavorite": false
   },
   {

@@ -1,6 +1,7 @@
 import { useState } from "react";
+import { useTasks, useTasksDispatch } from "../../contexts/TasksProvider";
 
-export default function AddTaskModal({ onSaveTask, taskToUpdate, tasks }) {
+export default function AddTaskModal({ taskToUpdate, setShowTaskModal }) {
   const [task, setTask] = useState(
     taskToUpdate || {
       title: "",
@@ -10,8 +11,10 @@ export default function AddTaskModal({ onSaveTask, taskToUpdate, tasks }) {
       isFavorite: false,
     }
   );
-
+  const [errors, setErrors] = useState("");
   const [isAddTask, setIsAddTask] = useState(Object.is(taskToUpdate, null));
+  const tasks = useTasks();
+  const dispatch = useTasksDispatch();
 
   function handleChange(e) {
     const name = e.target.name;
@@ -29,7 +32,19 @@ export default function AddTaskModal({ onSaveTask, taskToUpdate, tasks }) {
     e.preventDefault();
     const nextId = tasks.length > 0 ? tasks[tasks.length - 1].id + 1 : 0;
     const newTask = { id: nextId, ...task };
-    onSaveTask(newTask, isAddTask);
+    if (isAddTask) {
+      dispatch({
+        type: "ADD_TASK",
+        payload: { newTask },
+      });
+    } else {
+      // setTaskToUpdate(null);
+      dispatch({
+        type: "EDIT_TASK",
+        payload: { newTask },
+      });
+    }
+    setShowTaskModal(false);
   }
   return (
     <>
@@ -46,11 +61,13 @@ export default function AddTaskModal({ onSaveTask, taskToUpdate, tasks }) {
           <div className="space-y-2 lg:space-y-3">
             <label htmlFor="title">Title</label>
             <input
-              className="block w-full rounded-md bg-[#2D323F] px-3 py-2.5"
+              className={`block w-full rounded-md bg-[#2D323F] px-3 py-2.5 ${
+                errors.includes("title") && "border border-red-500"
+              }`}
               type="text"
               name="title"
               id="title"
-              required
+              // required
               value={task.title}
               onChange={handleChange}
             />
@@ -58,11 +75,13 @@ export default function AddTaskModal({ onSaveTask, taskToUpdate, tasks }) {
           <div className="space-y-2 lg:space-y-3">
             <label htmlFor="description">Description</label>
             <textarea
-              className="block min-h-[120px] w-full rounded-md bg-[#2D323F] px-3 py-2.5 lg:min-h-[180px]"
+              className={`block min-h-[120px] w-full rounded-md bg-[#2D323F] px-3 py-2.5 lg:min-h-[180px] ${
+                errors.includes("description") && "border border-red-500"
+              }`}
               type="text"
               name="description"
               id="description"
-              required
+              // required
               value={task.description}
               onChange={handleChange}
             ></textarea>
@@ -71,11 +90,13 @@ export default function AddTaskModal({ onSaveTask, taskToUpdate, tasks }) {
             <div className="space-y-2 lg:space-y-3">
               <label htmlFor="tags">Tags</label>
               <input
-                className="block w-full rounded-md bg-[#2D323F] px-3 py-2.5"
+                className={`block w-full rounded-md bg-[#2D323F] px-3 py-2.5 ${
+                  errors.includes("title") && "border border-red-500"
+                }`}
                 type="text"
                 name="tags"
                 id="tags"
-                required
+                // required
                 value={task.tags}
                 onChange={handleChange}
               />
@@ -86,7 +107,7 @@ export default function AddTaskModal({ onSaveTask, taskToUpdate, tasks }) {
                 className="block w-full cursor-pointer rounded-md bg-[#2D323F] px-3 py-2.5"
                 name="priority"
                 id="priority"
-                required
+                // required
                 value={task.priority}
                 onChange={handleChange}
               >
@@ -98,6 +119,7 @@ export default function AddTaskModal({ onSaveTask, taskToUpdate, tasks }) {
             </div>
           </div>
         </div>
+        {/* <div>{errors && <p>{errors}</p>}</div> */}
         <div className="mt-16 flex justify-center lg:mt-20">
           <button
             type="submit"
