@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { useTasksDispatch } from "../../contexts/TasksProvider";
+import { useTasks, useTasksDispatch } from "../../contexts/TasksProvider";
 import ConfirmDialog from "../utility/ConfirmDialog";
 import AddTaskModal from "./AddTaskModal";
 import SearchTask from "./SearchTask";
@@ -10,16 +10,22 @@ export default function TaskActions() {
   const [isShowDialog, setIsShowDialog] = useState(false);
   const [isAllTasksDeleted, setIsAllTasksDeleted] = useState(false);
   const dispatch = useTasksDispatch();
+  const tasks = useTasks();
 
   // handle delete confirmation
   function handleDeleteConfirm() {
-    dispatch({
-      type: "DELETE_ALL_TASKS",
-    });
-    setIsAllTasksDeleted(true);
-    setIsShowDialog(false);
-
-    toast.success(`All Tasks Removed !`);
+    if (tasks.length === 0) {
+      toast.error(`Task list is already empty !`);
+      toast.warning(`Please add a task !`);
+    } else {
+      dispatch({
+        type: "DELETE_ALL_TASKS",
+      });
+      setIsAllTasksDeleted(true);
+      setIsShowDialog(false);
+      toast.success(`All tasks removed !`);
+      toast.warning(`Task list is empty now !`);
+    }
   }
 
   return (

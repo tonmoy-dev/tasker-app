@@ -31,6 +31,7 @@ export default function AddTaskModal({ taskToUpdate, setShowTaskModal }) {
     if (errorsArr.length === 0) {
       return true;
     } else {
+      toast.warning(`All form fields are required !`);
       return false;
     }
   }
@@ -60,13 +61,13 @@ export default function AddTaskModal({ taskToUpdate, setShowTaskModal }) {
           type: "ADD_TASK",
           payload: { newTask },
         });
-        toast.success(`A New Task Is Added !`);
+        toast.success(`A new task is added !`);
       } else {
         dispatch({
           type: "EDIT_TASK",
           payload: { newTask },
         });
-        toast.success(`Task Is Updated !`);
+        toast.success(`Task is updated !`);
       }
       setShowTaskModal(false);
     }
@@ -76,7 +77,7 @@ export default function AddTaskModal({ taskToUpdate, setShowTaskModal }) {
       <div className="bg-black w-screen bg-opacity-60 h-full w-full z-10 fixed top-0 left-0"></div>
       <form
         onSubmit={handleSubmit}
-        className="mx-auto my-10 w-full max-w-[740px] rounded-xl border border-[#FEFBFB]/[36%] bg-[#191D26] p-9 max-md:px-4 lg:my-20 lg:p-11 z-10 absolute top-1/4 left-1/4 overflow-auto"
+        className="mx-auto my-10 w-full max-w-[740px] rounded-xl border border-[#FEFBFB]/[36%] bg-[#191D26] p-9 max-md:px-4 lg:my-20 lg:p-11 z-50 absolute top-1/4 left-1/4 overflow-auto"
       >
         <h2 className="mb-9 text-center text-2xl font-bold text-white lg:mb-11 lg:text-[28px]">
           {isAddTask ? "Add New Task" : "Edit Task"}

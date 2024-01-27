@@ -9,7 +9,6 @@ export default function TasksList() {
   const [showTaskModal, setShowTaskModal] = useState(false);
   const [taskToUpdate, setTaskToUpdate] = useState(null);
   const [isShowDialog, setIsShowDialog] = useState(false);
-  const [isConfirm, setIsConfirm] = useState(false);
   const [taskId, setTaskId] = useState(null);
 
   const tasks = useTasks();
@@ -22,7 +21,7 @@ export default function TasksList() {
       payload: { taskId },
     });
     setIsShowDialog(false);
-    toast.success(`Task Is Removed !`);
+    toast.success(`Task is removed !`);
   }
 
   return (
@@ -37,7 +36,6 @@ export default function TasksList() {
         <ConfirmDialog
           title="delete this task"
           setIsShowDialog={setIsShowDialog}
-          setIsConfirm={setIsConfirm}
           onDeleteConfirm={handleDeleteConfirm}
         />
       )}

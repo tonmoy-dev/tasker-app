@@ -5,7 +5,7 @@ export default function SearchTask({ isAllTasksDeleted }) {
   const [searchTerm, setSearchTerm] = useState("");
   const dispatch = useTasksDispatch();
 
-  // search handlers
+  // form and search handlers
   function handleSearch(searchKey) {
     if (searchKey) {
       dispatch({
@@ -20,17 +20,16 @@ export default function SearchTask({ isAllTasksDeleted }) {
       }
     }
   }
-
   function handleInputChange(e) {
     const inputValue = e.target.value;
     setSearchTerm(inputValue);
     handleSearch(inputValue);
   }
-
   function handleSubmit(e) {
     e.preventDefault();
     handleSearch(searchTerm);
   }
+
   return (
     <form onSubmit={handleSubmit}>
       <div className="flex">
